@@ -1,3 +1,7 @@
+# conclusion
+# 1. if label mistake ratio < 50%, gbm still have a better solution
+
+
 ### simulate data
 # cluster 1=centor(0, 1), cluster 2=cnetor(1, 0)
 library(data.table)
@@ -100,3 +104,6 @@ View(res)
 # 1.7	0.3	0.9746101	0.9581474
 # 1.7	0.5	0.9776708	1.0094142
 # 1.7	0.7	0.9658042	1.0440445
+
+
+
