@@ -5,18 +5,22 @@ library(randomForest)
 library(xgboost)
 library(dplyr)
 library(glmnet)
-gen_dat = function(n_sample = 100, c1 = c(0, 1), c2 = c(1, 0), sig = 0.1) {
+gen_dat = function(n_sample = 100, c1 = c(0, 1), c2 = c(1, 0), c3 = c(0, 0), sig = 0.1) {
   tmp1 = data.table(x1=rnorm(n_sample, c1[1], sig), x2=rnorm(n_sample, c1[2], sig) )
   tmp2 = cbind(x1=rnorm(n_sample, c2[1], sig), x2=rnorm(n_sample, c2[2], sig) )
-  x = rbind(tmp1, tmp2)
-  y = c(rep(0, n_sample), rep(1, n_sample))
-  dat = data.table(x, y=y)
+  tmp3 = cbind(x1=rnorm(n_sample, c3[1], sig), x2=rnorm(n_sample, c3[2], sig) )
+  x = rbind(tmp1, tmp2, tmp3)
+  y1 = c(rep(1, n_sample), rep(0, n_sample), rep(0, n_sample))
+  y2 = c(rep(0, n_sample), rep(1, n_sample), rep(0, n_sample))
+  y3 = c(rep(0, n_sample), rep(0, n_sample), rep(1, n_sample))
+  dat = data.table(x, y1=y1, y2=y2, y3=y3)
   dat
 }
 
 
-inv_label = function(aDat) {
-  aDat$y = (aDat$y - 1) * (-1)
+change_label = function(aDat, fromY=1) {
+  mutate(data=aDat, y==fromY, 0)
+  aDat$y[] = (aDat$y - 1) * (-1)
   aDat
 }
 
